@@ -1,6 +1,9 @@
 package com.vinsguru.playground.sec01;
 
 import com.vinsguru.playground.AbstractTest;
+import com.vinsguru.playground.sec01.entity.Customer;
+import com.vinsguru.playground.sec01.entity.Movie;
+import com.vinsguru.playground.sec01.entity.Review;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -23,6 +26,30 @@ public class IndexOperationsTest extends AbstractTest {
     public void createIndex() {
         var indexOperations = elasticsearchOperations.indexOps(IndexCoordinates.of("albums"));
         boolean creationResult = indexOperations.create();
+        Assertions.assertTrue(creationResult);
+        verifyIndex(indexOperations, 1, 1);
+    }
+
+    @Test
+    public void createIndexWithSettings() {
+        var indexOperations = elasticsearchOperations.indexOps(Review.class);
+        boolean creationResult = indexOperations.create();
+        Assertions.assertTrue(creationResult);
+        verifyIndex(indexOperations, 2, 2);
+    }
+
+    @Test
+    public void createIndexWithSettingsAndMappings() {
+        var indexOperations = elasticsearchOperations.indexOps(Customer.class);
+        boolean creationResult = indexOperations.createWithMapping();
+        Assertions.assertTrue(creationResult);
+        verifyIndex(indexOperations, 3, 0);
+    }
+
+    @Test
+    public void createIndexWithFieldMappings() {
+        var indexOperations = elasticsearchOperations.indexOps(Movie.class);
+        boolean creationResult = indexOperations.createWithMapping();
         Assertions.assertTrue(creationResult);
         verifyIndex(indexOperations, 1, 1);
     }

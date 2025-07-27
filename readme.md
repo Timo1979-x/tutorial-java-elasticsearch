@@ -14,3 +14,6 @@
 ```bash
 ./gradlew clean test --tests com.vinsguru.playground.sec01.IndexOperationsTest.createIndex
 ```
+
+### lesson12-128
+Создание индексов с использованием конфигурационных файлов и аннотаций
