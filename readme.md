@@ -32,3 +32,8 @@
 
 ### lesson12-134
 Исследование query methods, продолжение
+
+### lesson12-135
+Исследование query methods, продолжение. Сортировка и between.
+
+
