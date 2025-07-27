@@ -42,6 +42,29 @@ public class QueryMethodsTest extends AbstractTest {
         this.print().accept("findByCategories");
         SearchHits<Product> searchHits = repository.findByCategoryIn(List.of("Furniture", "Beauty"));
         searchHits.forEach(this.print());
-        Assertions.assertEquals(8 , searchHits.getTotalHits());
+        Assertions.assertEquals(8, searchHits.getTotalHits());
+    }
+
+    @Test
+    public void findByCategoryAndBrand() {
+        this.print().accept("findByCategoryAndBrand");
+        SearchHits<Product> searchHits = repository.findByCategoryAndBrand("Furniture", "Ikea");
+        searchHits.forEach(this.print());
+        Assertions.assertEquals(2, searchHits.getTotalHits());
+    }
+
+    @Test
+    public void findByName() {
+        this.print().accept("findByName");
+        SearchHits<Product> searchHits = repository.findByName("table coffee");
+        searchHits.forEach(this.print());
+        Assertions.assertEquals(1, searchHits.getTotalHits());
+    }
+    @Test
+    public void findByPriceLessThan() {
+        this.print().accept("findByPriceLessThan");
+        SearchHits<Product> searchHits = repository.findByPriceLessThan(80);
+        searchHits.forEach(this.print());
+        Assertions.assertEquals(5, searchHits.getTotalHits());
     }
 }
