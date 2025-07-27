@@ -1,0 +1,18 @@
+# Security has been disabled for simplicity during learning. 
+# Don't worry, security will be covered later in this course.
+
+services:
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.2
+    ports:
+    - 9200:9200
+    environment:
+    - discovery.type=single-node
+    - xpack.security.enabled=false
+    - xpack.security.http.ssl.enabled=false
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.0.2
+    ports:
+    - 5601:5601
+    environment:
+    - ELASTICSEARCH_HOSTS=http://elastic:9200
