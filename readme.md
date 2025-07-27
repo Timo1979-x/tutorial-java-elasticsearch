@@ -17,3 +17,6 @@
 
 ### lesson12-128
 Создание индексов с использованием конфигурационных файлов и аннотаций
+
+### lesson12-129
+Работа с документами с использованием `org.springframework.data.elasticsearch.repository.ElasticsearchRepositoryorg.springframework.data.elasticsearch.repository.ElasticsearchRepository`
