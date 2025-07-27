@@ -24,3 +24,9 @@
 ### lesson12-130
 Массовая вставка/обновление/удаление с использованием `org.springframework.data.elasticsearch.repository.ElasticsearchRepositoryorg.springframework.data.elasticsearch.repository.ElasticsearchRepository`
 
+### lesson12-133
+Исследование query methods, т.е. методов в репозитории, на основании имен которых динамически создаются запросы. Типа `findAllByNameAndAge`.  
+Добавлены утилитные методы в `com.vinsguru.playground.AbstractTest`  
+Включено логирование запросов, геренируемых Спрингом для ElasticSearch  
+Изменена область тестов: PER_METHOD -> PER_CLASS  
+
