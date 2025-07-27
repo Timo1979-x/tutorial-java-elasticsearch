@@ -5,3 +5,12 @@
 
 ### 03-06-node-roles
 делаем нодам ограничение по ролям. es01 может быть только мастером, es02 и es03 - только избирателями и хранилками. ПРИМ: чтобы быть избирателем, ноде всё равно нужно указать роль master  
+
+## Лекции
+### lesson12-127
+Первый тест по созданию и удалению индекса (com.vinsguru.playground.sec01.IndexOperationsTest.createIndex).
+
+Тесты можно запускать так:
+```bash
+./gradlew clean test --tests com.vinsguru.playground.sec01.IndexOperationsTest.createIndex
+```

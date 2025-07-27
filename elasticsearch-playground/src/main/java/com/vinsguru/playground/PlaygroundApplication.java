@@ -1,13 +1,13 @@
-package com.vinsguru.elasticsearch_playground;
+package com.vinsguru.playground;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ElasticsearchPlaygroundApplication {
+public class PlaygroundApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ElasticsearchPlaygroundApplication.class, args);
+		SpringApplication.run(PlaygroundApplication.class, args);
 	}
 
 }
