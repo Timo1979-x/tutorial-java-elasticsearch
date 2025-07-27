@@ -15,6 +15,11 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.index.Settings;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.util.Streamable;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CrudOperationsTest extends AbstractTest {
     public static final Logger log = LoggerFactory.getLogger(CrudOperationsTest.class);
@@ -52,6 +57,35 @@ public class CrudOperationsTest extends AbstractTest {
         repository.deleteById(1);
         Assertions.assertTrue(repository.findById(1).isEmpty());
         printAll("after delete");
+    }
+
+    @Test
+    public void bulkCrud() {
+        var employeeList = IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> new Employee(i, "name-" + i, i + 30))
+                .toList();
+        repository.saveAll(employeeList);
+        printAll("After save");
+
+        // check count:
+        Assertions.assertEquals(10, repository.count());
+
+        // find by ids:
+        var ids = List.of(2, 4, 6);
+        employeeList = Streamable.of(repository.findAllById(ids)).toList();
+        Assertions.assertEquals(3, employeeList.size());
+
+        // update and save
+        employeeList.forEach(employee -> {employee.setAge(employee.getAge() + 10);});
+        repository.saveAll(employeeList);
+        printAll("After update");
+        repository.findAllById(ids)
+                .forEach(e -> Assertions.assertEquals(e.getId() + 40, e.getAge()));
+
+        // delete and check count:
+        repository.deleteAllById(ids);
+        printAll("After delete");
+        Assertions.assertEquals(7, repository.count());
     }
 
     private void printAll(String title) {

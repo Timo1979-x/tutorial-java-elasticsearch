@@ -20,3 +20,7 @@
 
 ### lesson12-129
 Работа с документами с использованием `org.springframework.data.elasticsearch.repository.ElasticsearchRepositoryorg.springframework.data.elasticsearch.repository.ElasticsearchRepository`
+
+### lesson12-130
+Массовая вставка/обновление/удаление с использованием `org.springframework.data.elasticsearch.repository.ElasticsearchRepositoryorg.springframework.data.elasticsearch.repository.ElasticsearchRepository`
+
