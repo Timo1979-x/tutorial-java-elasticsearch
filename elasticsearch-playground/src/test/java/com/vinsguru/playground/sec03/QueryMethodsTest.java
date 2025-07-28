@@ -2,7 +2,6 @@ package com.vinsguru.playground.sec03;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.vinsguru.playground.AbstractTest;
-import com.vinsguru.playground.sec02.CrudOperationsTest;
 import com.vinsguru.playground.sec03.entity.Product;
 import com.vinsguru.playground.sec03.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
@@ -11,8 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.data.util.Streamable;
 
 import java.util.List;
@@ -85,5 +86,17 @@ public class QueryMethodsTest extends AbstractTest {
         var all = repository.findAll(Sort.by("quantity").descending());
         all.forEach(this.print());
         Assertions.assertEquals(20, Streamable.of(all).toList().size());
+    }
+
+    @Test
+    public void findByCategoryWithPagination() {
+        this.print().accept("findByCategory");
+        // page number starts from 0
+        SearchPage<Product> searchPage = repository.findByCategory("Electronics",
+                PageRequest.of(1, 4));
+        searchPage.getSearchHits().forEach(this.print());
+        Assertions.assertEquals(1, searchPage.getNumber());
+        Assertions.assertEquals(3, searchPage.getTotalPages());
+        Assertions.assertEquals(12, searchPage.getTotalElements());
     }
 }
