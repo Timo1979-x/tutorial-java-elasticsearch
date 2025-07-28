@@ -1,5 +1,11 @@
 package com.vinsguru.playground.sec05;
 
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.AggregationRange;
+import co.elastic.clients.elasticsearch._types.aggregations.RangeAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.StatsAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.NumberRangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
@@ -12,13 +18,17 @@ import com.vinsguru.playground.sec05.repository.GarmentRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchAggregation;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
+import org.springframework.data.elasticsearch.core.AggregationsContainer;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -98,7 +108,7 @@ public class NativeAndCriteriaQueryTest extends AbstractTest {
         Query colorBrown = Query.of(b -> b.term(
                 TermQuery.of(tb -> tb.field("color").value("Brown"))
         ));
-        Query priceBelow50= Query.of(b -> b.range(
+        Query priceBelow50 = Query.of(b -> b.range(
                 RangeQuery.of(rb -> rb.number(
                         NumberRangeQuery.of(nb -> nb.field("price").lte(50d))
                 ))
@@ -110,6 +120,89 @@ public class NativeAndCriteriaQueryTest extends AbstractTest {
         SearchHits<Garment> searchHits = elasticsearchOperations.search(nativeQuery, Garment.class);
         searchHits.forEach(this.print());
         assertEquals(4, searchHits.getTotalHits());
+    }
+
+    /*
+    {
+  "size": 0,
+  "aggs": {
+    "price-stats": {
+      "stats": {
+        "field": "price"
+      }
+    },
+    "group-by-brand": {
+      "terms": {
+        "field": "brand"
+      }
+    },
+    "group-by-color": {
+      "terms": {
+        "field": "color"
+      }
+    },
+    "price-range": {
+      "range": {
+        "field": "price",
+        "ranges": [
+          {
+            "to": 50
+          },
+          {
+            "from": 50,
+            "to": 100
+          },
+          {
+            "from": 100,
+            "to": 150
+          },
+          {
+            "from": 150
+          }
+        ]
+      }
+    }
+  }
+}
+     */
+    @Test
+    public void aggregation() {
+        Aggregation priceStats = Aggregation.of(b -> b.stats(
+                StatsAggregation.of(sb -> sb.field("price"))
+        ));
+        Aggregation brandTerms = Aggregation.of(b -> b.terms(
+                TermsAggregation.of(tb -> tb.field("brand"))
+        ));
+        Aggregation colorTerms = Aggregation.of(b -> b.terms(
+                TermsAggregation.of(tb -> tb.field("color"))
+        ));
+
+        List<AggregationRange> ranges = List.of(
+                AggregationRange.of(b -> b.to(50d)),
+                AggregationRange.of(b -> b.from(50d).to(100d)),
+                AggregationRange.of(b -> b.from(100d).to(150d)),
+                AggregationRange.of(b -> b.from(150d))
+        );
+        Aggregation priceRange = Aggregation.of(b -> b.range(
+                RangeAggregation.of(rb -> rb.field("price").ranges(ranges))
+        ));
+        NativeQuery query = NativeQuery.builder()
+                .withMaxResults(0)
+                .withAggregation("price-stats", priceStats)
+                .withAggregation("group-by-brand", brandTerms)
+                .withAggregation("group-by-color", colorTerms)
+                .withAggregation("price-range", priceRange)
+                .build();
+        SearchHits<Garment> searchHits = elasticsearchOperations.search(query, Garment.class);
+        var aggregations = (List<ElasticsearchAggregation>) searchHits.getAggregations().aggregations();
+        Map<String, Aggregate> map = aggregations.stream()
+                .map(ElasticsearchAggregation::aggregation)
+                .collect(Collectors.toMap(
+                        a -> a.getName(),
+                        a -> a.getAggregate()
+                ));
+        log.info("{}", map);
+//        assertEquals(0, searchHits.getTotalHits());
     }
 
     private void verify(String title, Criteria criteria, int expectedResultsCount) {

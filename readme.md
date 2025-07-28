@@ -56,3 +56,6 @@ Fuzzy search, комбинирование по And и Or, поле больше
 ### lesson12-144
 Native bool query. Позволяет создавать запросы любой сложности с помощью Builder API.
 
+### lesson12-146
+aggregation
+
