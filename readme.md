@@ -52,3 +52,7 @@ Setup для дальнейших лекций
 Criteria query
 Используется для динамического построения запросов, когда не хватает возможностей `@org.springframework.data.elasticsearch.annotations.Query`
 Fuzzy search, комбинирование по And и Or, поле больше или меньше, boost rating...
+
+### lesson12-144
+Native bool query. Позволяет создавать запросы любой сложности с помощью Builder API.
+
