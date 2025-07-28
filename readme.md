@@ -48,4 +48,7 @@ Highlighting. если его запросить, то будет заполне
 ### lesson12-141
 Setup для дальнейших лекций
 
-
+### lesson12-142
+Criteria query
+Используется для динамического построения запросов, когда не хватает возможностей `@org.springframework.data.elasticsearch.annotations.Query`
+Fuzzy search, комбинирование по And и Or, поле больше или меньше, boost rating...
