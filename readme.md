@@ -39,4 +39,7 @@
 ### lesson12-136
 Pagination
 
+### lesson12-138
+Query annotation. Можно использовать кастомные запросы, которые можно тонко настраивать - включать fuzziness, slop, tie-breaker...
+
 
