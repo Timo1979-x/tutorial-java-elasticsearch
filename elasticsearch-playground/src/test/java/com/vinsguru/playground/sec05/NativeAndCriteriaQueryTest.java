@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NativeAndCriteriaQueryTest extends AbstractTest {
 
@@ -202,7 +203,19 @@ public class NativeAndCriteriaQueryTest extends AbstractTest {
                         a -> a.getAggregate()
                 ));
         log.info("{}", map);
-//        assertEquals(0, searchHits.getTotalHits());
+        assertTrue(map.get("price-stats").isStats());
+        assertTrue(map.get("group-by-brand").isSterms());
+        assertTrue(map.get("group-by-color").isSterms());
+        assertTrue(map.get("price-range").isRange());
+
+        if(map.get("group-by-brand").isSterms()) {
+            map.get("group-by-brand").sterms()
+                    .buckets()
+                    .array()
+                    .stream()
+                    .map(b -> b.key().stringValue() + ":" + b.docCount())
+                    .forEach(this.print());
+        }
     }
 
     private void verify(String title, Criteria criteria, int expectedResultsCount) {
