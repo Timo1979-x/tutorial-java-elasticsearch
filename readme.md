@@ -42,4 +42,7 @@ Pagination
 ### lesson12-138
 Query annotation. Можно использовать кастомные запросы, которые можно тонко настраивать - включать fuzziness, slop, tie-breaker...
 
+### lesson12-139
+Highlighting. если его запросить, то будет заполнено поле highlightFields в возвращаемых объектах `org.springframework.data.elasticsearch.core.SearchHits`
+
 
