@@ -65,3 +65,10 @@ aggregation
 ### lesson12-149
 Autocomplete suggestion
 
+### lesson12-156
+Создан шаблон финального проекта (./final-project). Чтобы наполнить данными базу данных, надо:
+  - зайти в ./final-project/docker
+  - запустить `docker compose up` (или `make up`)
+  - дождаться полного старта контейнера elasticsearch
+  - запустить `docker compose run --rm data-setup` (или `make data-setup`)
+

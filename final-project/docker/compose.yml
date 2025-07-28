@@ -1,0 +1,23 @@
+services:
+  elastic:
+    image: elasticsearch:9.0.2
+    ports:
+    - 9200:9200
+    environment:
+    - discovery.type=single-node
+    - xpack.security.enabled=false
+    - xpack.security.http.ssl.enabled=false
+
+  kibana:
+    image: kibana:9.0.2
+    ports:
+    - 5601:5601
+    environment:
+    - ELASTICSEARCH_HOSTS=http://elastic:9200
+
+  data-setup:
+    image: vinsdocker/elasticsearch-business-datasetup
+    profiles:
+      - data-setup
+    environment:
+    - ELASTICSEARCH_HOST=http://elastic:9200
