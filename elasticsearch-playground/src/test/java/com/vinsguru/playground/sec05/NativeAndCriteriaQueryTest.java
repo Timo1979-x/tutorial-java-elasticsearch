@@ -11,6 +11,10 @@ import co.elastic.clients.elasticsearch._types.query_dsl.NumberRangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch.core.search.CompletionSuggester;
+import co.elastic.clients.elasticsearch.core.search.FieldSuggester;
+import co.elastic.clients.elasticsearch.core.search.SourceFilter;
+import co.elastic.clients.elasticsearch.core.search.Suggester;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.vinsguru.playground.AbstractTest;
 import com.vinsguru.playground.sec05.entity.Garment;
@@ -25,9 +29,12 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
+import org.springframework.data.elasticsearch.core.suggest.response.Suggest;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -216,6 +223,43 @@ public class NativeAndCriteriaQueryTest extends AbstractTest {
                     .map(b -> b.key().stringValue() + ":" + b.docCount())
                     .forEach(this.print());
         }
+    }
+
+    /*
+    {
+  "suggest": {
+    "product-suggest": {
+      "prefix": "ca",
+      "completion": {
+          "field": "name.completion"
+      }
+    }
+  },
+  "_source": false
+}
+     */
+    @Test
+    public void suggestion() {
+        FieldSuggester fieldSuggester = FieldSuggester.of(b -> b.prefix("ca").completion(
+                CompletionSuggester.of(sb -> sb.field("name.completion").skipDuplicates(true).size(10))
+        ));
+        Suggester suggester = Suggester.of(b -> b.suggesters("product-suggest", fieldSuggester));
+        NativeQuery nativeQuery = NativeQuery.builder()
+                .withSuggester(suggester)
+                .withMaxResults(0)
+                .withSourceFilter(FetchSourceFilter.of(b -> b.withExcludes("*")))
+                .build();
+        SearchHits<Garment> searchHits = elasticsearchOperations.search(nativeQuery, Garment.class);
+        searchHits.forEach(this.print());
+        Set<String> suggestion = searchHits.getSuggest()
+                .getSuggestion("product-suggest")
+                .getEntries()
+                .getFirst()
+                .getOptions()
+                .stream()
+                .map(Suggest.Suggestion.Entry.Option::getText)
+                .collect(Collectors.toSet());
+        assertEquals(Set.of("Casual Wrap", "Casual Maxi"), suggestion);
     }
 
     private void verify(String title, Criteria criteria, int expectedResultsCount) {
