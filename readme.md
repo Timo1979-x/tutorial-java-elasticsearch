@@ -72,3 +72,6 @@ Autocomplete suggestion
   - дождаться полного старта контейнера elasticsearch
   - запустить `docker compose run --rm data-setup` (или `make data-setup`)
 
+### lesson12-157
+Написание методов-помощников
+
