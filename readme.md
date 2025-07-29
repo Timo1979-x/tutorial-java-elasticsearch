@@ -96,3 +96,5 @@ curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
 ### lesson12-162
 Написание базового кода для API поиска
 
+### lesson12-163
+Утилитные методы для построения поисковых запросов
