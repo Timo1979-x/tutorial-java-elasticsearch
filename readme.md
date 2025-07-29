@@ -111,4 +111,7 @@ curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
 ### lesson12-168
 создан `com.vinsguru.business.service.SearchService`, написаны методы поиска
 
+### lesson12-169
+полностью реализован API для поиска
+
 
