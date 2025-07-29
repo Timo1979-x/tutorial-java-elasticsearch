@@ -108,5 +108,7 @@ curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
 ### lesson12-167
 Созданы необходимые DTO
 
+### lesson12-168
+создан `com.vinsguru.business.service.SearchService`, написаны методы поиска
 
 
