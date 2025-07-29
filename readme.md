@@ -66,7 +66,17 @@ aggregation
 Autocomplete suggestion
 
 ## Финальный проект
+### Команды для проверки
+```bash
+# Запуск:
+./gradlew bootRun
 
+# получить 
+curl 'http://localhost:8080/api/suggestions?prefix=auto&limit=5' | jq
+
+# проверить, что пустое поле ввода генерирует ошибку:
+curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
+```
 ### lesson12-156
 Создан шаблон финального проекта (./final-project). Чтобы наполнить данными базу данных, надо:
   - зайти в ./final-project/docker
