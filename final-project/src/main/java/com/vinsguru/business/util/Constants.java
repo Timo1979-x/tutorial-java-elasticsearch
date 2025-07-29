@@ -32,7 +32,7 @@ public class Constants {
         public static final String CATEGORY_RAW = "category.raw";
         public static final String OFFERINGS = "offerings";
         public static final String OFFERINGS_RAW = "offerings.raw";
-        public static final String RATING = "rating";
+        public static final String RATING = "avg_rating";
         public static final String OFFERINGS_AGGREGATE_NAME = "offerings-term-aggregate";
     }
 }

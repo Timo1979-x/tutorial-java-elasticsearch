@@ -10,7 +10,7 @@ import static com.vinsguru.business.util.Constants.*;
 import static com.vinsguru.business.util.ElasticsearchUtil.*;
 
 public class QueryRules {
-    public static final String BOOST_FIELD_FORMAT = "%s^%f";
+    public static final String BOOST_FIELD_FORMAT = "%s^%s";
 
     public static final QueryRule STATE_QUERY = QueryRule.of(
             srp -> srp.state() != null,
@@ -24,7 +24,7 @@ public class QueryRules {
 
     public static final QueryRule RATING_QUERY = QueryRule.of(
             srp -> srp.rating() != null,
-            srp -> buildRangeQuery(Business.RATING, b -> b.lte(srp.rating()))
+            srp -> buildRangeQuery(Business.RATING, b -> b.gte(srp.rating()))
     );
 
     public static final QueryRule DISTANCE_QUERY = QueryRule.of(

@@ -3,7 +3,6 @@ package com.vinsguru.business;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.vinsguru.business.util.Constants;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,7 +19,6 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,9 +94,10 @@ public class SuggestionTest extends AbstractTest {
     }
 
     public Stream<Arguments> failureTestData() {
+        String prefixCannotBeEmpty = "prefix cannot be empty";
         return Stream.of(
-                Arguments.of("prefix=", "prefix cannot be empty"),
-                Arguments.of("", "prefix cannot be empty")
+                Arguments.of("prefix=", prefixCannotBeEmpty),
+                Arguments.of("", prefixCannotBeEmpty)
         );
     }
 }
