@@ -114,4 +114,7 @@ curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
 ### lesson12-169
 полностью реализован API для поиска
 
+### lesson12-171-174
+интеграционные тесты для автодополнения
+
 
