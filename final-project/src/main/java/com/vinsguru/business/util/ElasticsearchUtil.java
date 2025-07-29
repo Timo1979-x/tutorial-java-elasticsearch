@@ -64,8 +64,8 @@ public class ElasticsearchUtil {
         return Query.of(b -> b.range(rangeQuery));
     }
 
-    public static Query buildGeoDistanceQuery(String field, String distance, Double latatitude, Double longitude) {
-        var latlonLocation = LatLonGeoLocation.of(b -> b.lat(latatitude).lon(longitude));
+    public static Query buildGeoDistanceQuery(String field, String distance, Double latitude, Double longitude) {
+        var latlonLocation = LatLonGeoLocation.of(b -> b.lat(latitude).lon(longitude));
         var geoLocation = GeoLocation.of(b -> b.latlon(latlonLocation));
         GeoDistanceQuery geoDistanceQuery = GeoDistanceQuery.of(b -> b
                 .field(field)
