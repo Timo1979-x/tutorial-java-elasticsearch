@@ -105,6 +105,8 @@ curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
 ### lesson12-166
 Снова пишем инфраструктурный код для построения запросов
 
+### lesson12-167
+Созданы необходимые DTO
 
 
 
