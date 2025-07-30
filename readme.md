@@ -140,3 +140,17 @@ curl 'http://localhost:8080/api/search' | jq
 ### lesson12-179
 Добавлен фронтенд - index.html
 [f] в результатах не было наименования организации
+
+## Безопасность
+Будем ковыряться с самоподписанным сертификатом для elasticsearch.  
+забрать самоподписанный сертификат из контейнера:
+```bash
+docker cp elastic:/usr/share/elasticsearch/config/certs/http_ca.crt .
+```
+после этого можно работать через https:
+```bash
+curl --cacert http_ca.crt https://localhost:9200 -u elastic:password123 
+```
+
+### lesson 14-187
+Добавлена конфигурация docker compose для запуска elasticsearch с поддержкой https.  

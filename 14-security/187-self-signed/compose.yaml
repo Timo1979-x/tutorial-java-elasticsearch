@@ -1,0 +1,9 @@
+services:
+  elastic:
+    container_name: elastic
+    image: elasticsearch:9.0.2
+    ports:
+    - 9200:9200
+    environment:
+    - discovery.type=single-node
+    - ELASTIC_PASSWORD=password123
