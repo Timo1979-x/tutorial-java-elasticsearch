@@ -6,6 +6,7 @@ import java.util.List;
 
 public record Business(
         String id,
+        String name,
         String description,
         String address,
         List<String> category,

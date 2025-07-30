@@ -74,20 +74,13 @@ Autocomplete suggestion
 - запустить `docker compose run --rm data-setup` (или `make data-setup`)
 
 ### Команды для проверки
-```bash
-# Запуск:
-./gradlew bootRun
-
-# получить 
-curl 'http://localhost:8080/api/suggestions?prefix=auto&limit=5' | jq
-
-# проверить, что пустое поле ввода генерирует ошибку:
-curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
-```
+Запуск: `./gradlew bootRun`. потом использовать curl для запросов к API, или открыть в браузере http://localhost:8080
 
 ### тестовые примеры для API
 ```bash
 # "Хорошие" запросы
+curl 'http://localhost:8080/api/suggestions?prefix=auto&limit=5' | jq
+
 curl 'http://localhost:8080/api/search?query=auto%20dealer' | jq | less
 curl 'http://localhost:8080/api/search?query=restaurants' | jq | less
 curl 'http://localhost:8080/api/search?query=chinese%20restaurants' | jq | less
@@ -95,6 +88,8 @@ curl 'http://localhost:8080/api/search?query=walmart' | jq | less
 curl 'http://localhost:8080/api/search?query=walmart&state=Georgia' | jq | less
 
 # "Плохие" запросы
+curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
+
 curl 'http://localhost:8080/api/search' | jq
 ```
 
@@ -142,3 +137,6 @@ curl 'http://localhost:8080/api/search' | jq
 интеграционные тесты для поиска
 Исправление ошибок
 
+### lesson12-179
+Добавлен фронтенд - index.html
+[f] в результатах не было наименования организации
