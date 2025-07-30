@@ -1,0 +1,14 @@
+services:
+  elastic:
+    image: elasticsearch:9.0.2
+    ports:
+    - 9200:9200
+    environment:
+    - discovery.type=single-node
+    - xpack.security.enabled=true
+    - xpack.security.http.ssl.enabled=true
+    - ELASTIC_PASSWORD=password123
+    - xpack.security.http.ssl.keystore.path=/usr/share/elasticsearch/config/certs/elastic.keystore.jks
+    - xpack.security.http.ssl.keystore.password=changeit
+    volumes:
+    - ./certs:/usr/share/elasticsearch/config/certs 

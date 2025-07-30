@@ -149,8 +149,16 @@ docker cp elastic:/usr/share/elasticsearch/config/certs/http_ca.crt .
 ```
 после этого можно работать через https:
 ```bash
-curl --cacert http_ca.crt https://localhost:9200 -u elastic:password123 
+curl --cacert http_ca.crt https://localhost:9200 -u elastic:password123
+# или
+curl --cacert certs/trust-store.crt https://localhost:9200 -u elastic:password123
 ```
 
 ### lesson 14-187
 Добавлена конфигурация docker compose для запуска elasticsearch с поддержкой https.  
+
+### lesson 14-188
+Используем формат jks для хранилища сертификатов. однако curl не понимает jks, поэтому надо экспортировать сертификат 
+из jks в формат crt. А java-клиенты могут задействовать certs/elastic.truststore.jks
+
+
