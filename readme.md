@@ -66,6 +66,13 @@ aggregation
 Autocomplete suggestion
 
 ## Финальный проект
+### заполнение БД
+Чтобы наполнить данными базу данных, надо:
+- зайти в ./final-project/docker
+- запустить `docker compose up` (или `make up`)
+- дождаться полного старта контейнера elasticsearch
+- запустить `docker compose run --rm data-setup` (или `make data-setup`)
+
 ### Команды для проверки
 ```bash
 # Запуск:
@@ -77,6 +84,20 @@ curl 'http://localhost:8080/api/suggestions?prefix=auto&limit=5' | jq
 # проверить, что пустое поле ввода генерирует ошибку:
 curl 'http://localhost:8080/api/suggestions?prefix=&limit=5' | jq
 ```
+
+### тестовые примеры для API
+```bash
+# "Хорошие" запросы
+curl 'http://localhost:8080/api/search?query=auto%20dealer' | jq | less
+curl 'http://localhost:8080/api/search?query=restaurants' | jq | less
+curl 'http://localhost:8080/api/search?query=chinese%20restaurants' | jq | less
+curl 'http://localhost:8080/api/search?query=walmart' | jq | less
+curl 'http://localhost:8080/api/search?query=walmart&state=Georgia' | jq | less
+
+# "Плохие" запросы
+curl 'http://localhost:8080/api/search' | jq
+```
+
 ### lesson12-156
 Создан шаблон финального проекта (./final-project). Чтобы наполнить данными базу данных, надо:
   - зайти в ./final-project/docker
